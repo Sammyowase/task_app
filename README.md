@@ -59,8 +59,8 @@ This provides an interactive interface to explore and test API endpoints.
     PORT=5000
     MONGODB_URI=your_mongodb_connection_string
     JWT_SECRET=your_jwt_secret
-    EMAIL=samuelowase02@gmail.com
-    PASSWORD=kcoyztveiluhzgfi
+    EMAIL=myemail@gmail.com
+    PASSWORD=appPassword
     FRONTEND_URL=http://localhost:3000
     NODE_ENV=development
     ```
