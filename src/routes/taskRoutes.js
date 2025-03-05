@@ -1,13 +1,16 @@
 const express = require('express');
-const { registerAdmin, loginUser } = require('../controllers/authController');
+const { createTask, updateTask, completeTask, deleteTask, getTasks } = require('../controllers/taskController');
+const { protect } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
 /**
  * @swagger
- * /auth/register:
+ * /tasks:
  *   post:
- *     summary: Register a new admin
+ *     summary: Create a new task
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -15,25 +18,46 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               title:
  *                 type: string
- *               email:
+ *               description:
  *                 type: string
- *               password:
+ *               assignee:
  *                 type: string
- *               businessName:
+ *               dueDate:
  *                 type: string
  *     responses:
  *       201:
- *         description: Admin registered successfully
+ *         description: Task created successfully
  */
-router.post('/register', registerAdmin);
+router.post('/', protect, createTask);
 
 /**
  * @swagger
- * /auth/login:
- *   post:
- *     summary: Login user
+ * /tasks:
+ *   get:
+ *     summary: Get all tasks
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Tasks retrieved successfully
+ */
+router.get('/', protect, getTasks);
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   put:
+ *     summary: Update a task
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -41,14 +65,52 @@ router.post('/register', registerAdmin);
  *           schema:
  *             type: object
  *             properties:
- *               email:
+ *               title:
  *                 type: string
- *               password:
+ *               description:
  *                 type: string
  *     responses:
  *       200:
- *         description: User logged in successfully
+ *         description: Task updated successfully
  */
-router.post('/login', loginUser);
+router.put('/:id', protect, updateTask);
+
+/**
+ * @swagger
+ * /tasks/{id}/complete:
+ *   put:
+ *     summary: Complete a task
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Task completed successfully
+ */
+router.put('/:id/complete', protect, completeTask);
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   delete:
+ *     summary: Delete a task
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Task deleted successfully
+ */
+router.delete('/:id', protect, deleteTask);
 
 module.exports = router;
