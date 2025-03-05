@@ -1,0 +1,195 @@
+openapi: 3.0.0
+info:
+  title: Task Management API
+  version: 1.0.0
+  description: API documentation for the Task Management API
+servers:
+  - url: http://localhost:5000/api
+paths:
+  /auth/register:
+    post:
+      summary: Register a new admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                businessName:
+                  type: string
+      responses:
+        '201':
+          description: Admin registered successfully
+  /auth/login:
+    post:
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User logged in successfully
+  /invite:
+    post:
+      summary: Invite a new member
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '201':
+          description: Invitation sent successfully
+  /set-password:
+    post:
+      summary: Set password for invited member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Password set successfully
+  /tasks:
+    post:
+      summary: Create a new task
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                assignee:
+                  type: string
+                dueDate:
+                  type: string
+      responses:
+        '201':
+          description: Task created successfully
+  /tasks/{id}:
+    put:
+      summary: Update a task
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '200':
+          description: Task updated successfully
+    delete:
+      summary: Delete a task
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Task deleted successfully
+  /tasks/{id}/complete:
+    put:
+      summary: Complete a task
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Task completed successfully
+  /comments:
+    post:
+      summary: Add a comment to a task
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                taskId:
+                  type: string
+                content:
+                  type: string
+      responses:
+        '201':
+          description: Comment added successfully
+    get:
+      summary: Get comments for a task
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: taskId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Comments retrieved successfully
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
