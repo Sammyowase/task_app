@@ -31,7 +31,7 @@ It allows **admins** to register, create a business, invite team members, and ma
 ## Swagger Documentation
 
 Access the API documentation at:  
-**[http://localhost:5000/api-docs](http://localhost:5000/api-docs)**  
+**[https://task-app-x4ri.onrender.com/api-docs/](https://task-app-x4ri.onrender.com/api-docs/)**  
 This provides an interactive interface to explore and test API endpoints.
 
 ---
@@ -72,7 +72,7 @@ This provides an interactive interface to explore and test API endpoints.
     ```
 
 The server will be running at:  
-**[http://localhost:5000](http://localhost:5000)**
+**[http://localhost:5000](http://localhost:5000)/https://task-app-x4ri.onrender.com**
 
 ---
 
